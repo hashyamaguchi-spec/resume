@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>山口建設DX プレゼンテーション資料</title>
+  <style>
+  /* 画面表示用のベーススタイル（スライドを縦に美しく並べる） */
+  body {
+    margin: 0;
+    padding: 40px 0;
+    background-color: #94a3b8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* 16:9 スライドの共通枠 */
+  section {
+    background-color: #f8fafc;
+    color: #0f172a;
+    width: 960px;
+    height: 540px;
+    padding: 50px 70px;
+    box-sizing: border-box;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* 見出し・文字の装飾 */
+  h1 { color: #1e3a8a; font-size: 2.8em; font-weight: 900; margin-top: 10px; margin-bottom: 10px; }
+  h2 {
+    color: #1e3a8a;
+    font-size: 1.8rem;
+    font-weight: 800;
+    border-left: 8px solid #ea580c;
+    padding-left: 15px;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  h3 { color: #ea580c; font-size: 1.25rem; font-weight: 700; margin-top: 5px; margin-bottom: 5px; }
+  
+  p { line-height: 1.6em; margin-top: 8px; margin-bottom: 8px; font-size: 0.95rem; }
+  ul { margin-top: 5px; margin-bottom: 5px; padding-left: 20px; }
+  li { line-height: 1.6em; margin-bottom: 6px; font-size: 0.95rem; }
+  strong { color: #1e3a8a; }
+  
+  /* 表のスタイリング */
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.85rem; }
+  th { background-color: #1e3a8a; color: #ffffff; padding: 10px; font-weight: bold; text-align: left; }
+  td { padding: 10px; border-bottom: 1px solid #e2e8f0; background-color: #ffffff; line-height: 1.4em; }
+  td strong { color: #ea580c; }
+
+  code { background-color: #ffedd5; color: #c2410c; padding: 2px 6px; border-radius: 4px; font-weight: bold; font-family: inherit; }
+
+  /* 表紙専用（heroクラス） */
+  section.hero { 
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); 
+    color: #ffffff; 
+    justify-content: center;
+    padding: 60px 80px;
+  }
+  section.hero h1 { color: #ffffff; font-size: 3.5em; margin: 0 0 10px 0; }
+  section.hero h3 { color: #f97316; font-size: 1.2rem; font-weight: 800; letter-spacing: 0.15em; margin-top: 0; margin-bottom: 30px; }
+  section.hero strong { color: #fed7aa; }
+  section.hero p { color: #f1f5f9; font-size: 1.1rem; }
+
+  /* レイアウト用汎用グリッド */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 10px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 10px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 10px; }
+  
+  /* カード・コンポーネント */
+  .card {
+    background: #ffffff; padding: 18px; border-radius: 12px;
+    border: 1px solid #e2e8f0; border-top: 5px solid #1e3a8a;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+  }
+  .card.alert { border-top: 5px solid #ea580c; }
+  .card-title { font-weight: 800; color: #1e3a8a; margin-bottom: 8px; font-size: 1.05rem; }
+  .card-tag { display: inline-block; background: #e2e8f0; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+  
+  /* ステップ矢印フロー */
+  .flow-container { display: flex; justify-content: space-between; align-items: center; margin-top: 25px; }
+  .flow-box { background: #ffffff; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; width: 28%; box-shadow: 0 2px 4px rgba(0,0,0,0.05); box-sizing: border-box; }
+  .flow-arrow { font-size: 2rem; color: #ea580c; font-weight: bold; }
+  
+  pre { font-family: inherit; background: #ffffff; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 0.85rem; line-height: 1.5em; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 15px; }
+
+  /* 印刷用スタイル（Ctrl+P を押したときに自動で1枚ずつ綺麗にPDFへ収める） */
+  @media print {
+    body { padding: 0; background-color: #ffffff; gap: 0; }
+    section {
+      width: 297mm;
+      height: 167.06mm;
+      page-break-after: always;
+      break-after: page;
+      box-shadow: none;
+      border: none;
+      border-radius: 0;
+    }
+  }
+  </style>
+</head>
+<body>
+
+<!-- Slide 1 -->
+<section class="hero">
+  <h1>山口建設DX</h1>
+  <h3>YAMAGUCHI INFRA-TECH CONNECT</h3>
+  <p><strong>山口のインフラを、地元の技術で守り抜く。</strong></p>
+  <p>地方建設業の「外注不足」と「膨大な事務作業」を同時に解決する、山口県特化型の建設DX連携プラットフォーム。</p>
+</section>
+
+<!-- Slide 2 -->
+<section>
+  <h2>地方建設業が抱える「致命的な二重苦」</h2>
+  <p>立場ごとに異なる課題が絡み合い、現場と行政の足を引っ張っている。</p>
+  <div class="grid-2">
+    <div class="card alert">
+      <div class="card-tag" style="background:#fee2e2; color:#ef4444;">課題 1：施工・設計のリソース不足</div>
+      <ul style="font-size:0.85rem; padding-left:15px; margin-top:8px;">
+        <li><b>施工：</b>重機の空きやドローン業者を「電話の掛け合い」で確認し機会損失</li>
+        <li><b>設計：</b>無数にいる<b>一人親方の設計者</b>と人伝いの紹介でしか繋がれず、建設コンサルタントが外注の人手を確保できない</li>
+      </ul>
+    </div>
+    <div class="card alert">
+      <div class="card-tag" style="background:#fee2e2; color:#ef4444;">課題 2：事務作業と発注者の盲点</div>
+      <ul style="font-size:0.85rem; padding-left:15px; margin-top:8px;">
+        <li><b>書類：</b>山口県・各市町村「独自」の様式が乱立し、手入力と二重転記に忙殺</li>
+        <li><b>発注者（役所）：災害発生時、現場で「誰が・どの重機を動かせるか」をリアルタイムに把握する手段がない</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 3 -->
+<section>
+  <h2>解決策：事務削減をフックにしたリソースの可視化</h2>
+  <p>業者に「登録して」と頼むのではなく、「超便利な道具」を配る。</p>
+  <div class="flow-container">
+    <div class="flow-box" style="border-top: 4px solid #3b82f6;">
+      <h3>STEP 1: 無料ツール</h3>
+      <p style="font-size:0.85rem; line-height:1.4em;">下請け業者へ<b>「山口県独自の書類が5分で作れるツール」</b>を無料配布して囲い込み。</p>
+    </div>
+    <div class="flow-arrow">➡</div>
+    <div class="flow-box" style="border-top: 4px solid #10b981;">
+      <h3>STEP 2: LINE連携</h3>
+      <p style="font-size:0.85rem; line-height:1.4em;">書類作成の対価として、<b>「自社の空き状況」</b>をLINEから1秒で入力してもらう。</p>
+    </div>
+    <div class="flow-arrow">➡</div>
+    <div class="flow-box" style="border-top: 4px solid #ea580c;">
+      <h3>STEP 3: 可視化マップ</h3>
+      <p style="font-size:0.85rem; line-height:1.4em;">県内の<b>「今、動ける業者・機材マップ」</b>が自動完成。ゼネコンや行政のDBへ提供。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 4 -->
+<section>
+  <h2>なぜ、山口県・下関から始めるのか？</h2>
+  <p>独自の経済圏と災害リスクが、最高の「実証実験の舞台」となる。</p>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">① 北九州圏の逆輸入</div>
+      <p style="font-size:0.85rem;">近接する北九州の先進的なIT・ドローン技術を、関門海峡を越えて下関の現場へ即座にブリッジ。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">② 設計・施工の地産地消</div>
+      <p style="font-size:0.85rem;">県内に分散する優秀な<b>一人親方設計者</b>や専門業者を可視化し、人脈に頼らない最適なローカルマッチングを確立。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">③ 防災インフラの緊急性</div>
+      <p style="font-size:0.85rem;">豪雨災害多発地帯において、<b>「どこに・どの重機があるか」</b>のリアルタイム可視化は自治体の悲願。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5 -->
+<section>
+  <h2>主要機能（Core Features）</h2>
+  <p>地方の「しがらみ」すらもシステムに取り込むUX設計。</p>
+  <div class="grid-4" style="margin-bottom: 15px;">
+    <div class="card" style="padding:10px; border-top:3px solid #1e3a8a;"><span style="font-size:0.75rem; font-weight:bold; color:#1e3a8a;">📑 山口県共通様式</span><p style="font-size:0.8rem; margin:2px 0 0 0;">契約書等自動生成</p></div>
+    <div class="card" style="padding:10px; border-top:3px solid #ea580c;"><span style="font-size:0.75rem; font-weight:bold; color:#ea580c;">💡 NETIS連携</span><p style="font-size:0.8rem; margin:2px 0 0 0;">技術提案資料出力</p></div>
+    <div class="card" style="padding:10px; border-top:3px solid #10b981;"><span style="font-size:0.75rem; font-weight:bold; color:#10b981;">📲 LINE連携</span><p style="font-size:0.8rem; margin:2px 0 0 0;">1秒ステータス更新</p></div>
+    <div class="card" style="padding:10px; border-top:3px solid #64748b;"><span style="font-size:0.75rem; font-weight:bold; color:#64748b;">🔒 クローズド</span><p style="font-size:0.8rem; margin:2px 0 0 0;">既存協会内限定共有</p></div>
+  </div>
+  <ul>
+    <li>📑 <strong>山口県独自様式・自動生成エンジン</strong>：条件入力のみで県・市指定の技術提案書や契約書を出力。</li>
+    <li>📱 <strong>LINE連携・1秒ステータス更新</strong>：「◎即対応可」「×多忙」をトーク画面からワンタップ更新。</li>
+    <li>🔒 <strong>「非公開グループ」モード</strong>：地元の人間関係を壊さず、既存の協会や協力会内「限定」で共有。</li>
+  </ul>
+</section>
+
+<!-- Slide 6 -->
+<section>
+  <h2>ビジネスモデル（マネタイズ）</h2>
+  <p>下請け（供給側）を無料で囲い込み、元請け（需要側）から収益を得るSaaS。</p>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">対象ユーザー</th>
+        <th style="width: 25%;">料金体系</th>
+        <th>提供価値・利用可能な主要機能</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>下請・協力業者</b>（供給側）</td>
+        <td><b>基本無料</b></td>
+        <td>自社PR枠の掲載、独自書類作成ツールの基本機能</td>
+      </tr>
+      <tr>
+        <td><b>元請ゼネコン・コンサル</b>（需要側）</td>
+        <td><b>月額 3〜5万円</b></td>
+        <td>高度な外注先検索、機材空き状況確認、非公開グループ作成</td>
+      </tr>
+      <tr>
+        <td><b>広告・優先表示枠</b>（マネタイズ）</td>
+        <td><b>従量課金</b></td>
+        <td>自社のNETIS技術や保有重機を、地図・検索結果の上位に優先表示</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Slide 7 -->
+<section>
+  <h2>競争優位性と法的クリアランス</h2>
+  <p>大手テック企業が踏み込めない「ドブ板の壁」と「法律の壁」をクリア。</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="color:#ea580c;">🚧 ローカライズの壁（参入障壁）</div>
+      <p style="font-size:0.85rem;">全国版マッチングサイト（ツクリンク等）は、手間の割に市場が狭い<b>「山口県独自様式」の自動生成までは作り込めない</b>ため競合しない。</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:#10b981;">⚖ 法的コンプライアンス設計</div>
+      <ul style="font-size:0.8rem; padding-left:15px;">
+        <li><b>建設業法（一括下請負禁止）：</b>契約に関与せずIT支援に徹する</li>
+        <li><b>下請法：</b>買いたたき防止の「標準単価アラート」を実装</li>
+        <li><b>職業安定法：</b>「人材紹介」ではなく「企業間タスク委託」に限定</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 8 -->
+<section>
+  <h2>初期獲得戦略（Go-to-Market）</h2>
+  <p>現場の導線と、地元の「顔役」をフル活用する。</p>
+  <pre>
+【現場のハック】 ➡ 建機レンタル店（アクティオ等）の窓口に「書類をスマホで終わらせる」QR設置
+       ⬇
+【地銀との連携】 ➡ 山口県内地銀のビジネスマッチング枠を活用。人手不足の融資先企業へ導入推奨
+       ⬇
+【地元の巻き込み】 ➡ 下関等の若手経済団体（YEG等）のアトツギ経営者を無料招待し、口コミの火種化</pre>
+</section>
+
+<!-- Slide 9 -->
+<section>
+  <h2>事業計画・KPIマイルストーン</h2>
+  <p>スモールスタートから、行政連携までのロードマップ。</p>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">フェーズ</th>
+        <th style="width: 20%;">期間</th>
+        <th style="width: 20%;">ターゲットKPI</th>
+        <th>展開内容・主要施策</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Phase 1: 概念実証</b></td>
+        <td>0〜6ヶ月</td>
+        <td>登録 <b>50社</b></td>
+        <td>下関市内での無料テスト運用、職人によるUI徹底改善</td>
+      </tr>
+      <tr>
+        <td><b>Phase 2: マネタイズ</b></td>
+        <td>7〜12ヶ月</td>
+        <td>有料 <b>50社</b> (MRR 150万円)</td>
+        <td>山口県全域への拡大、建機レンタル店との連携開始</td>
+      </tr>
+      <tr>
+        <td><b>Phase 3: 行政連携</b></td>
+        <td>2年目〜</td>
+        <td>登録 <b>500社</b></td>
+        <td>「防災インフラマップ」として山口県土木建築部へ公式提案</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Slide 10 -->
+<section>
+  <h2>ビジョン</h2>
+  <p><strong>山口県のインフラを守るのは、東京の大企業ではない。地元の技術者だ。</strong></p>
+  <div class="card" style="margin-top:15px; background:#1e3a8a; color:#ffffff; text-align:center; border:none; padding: 25px;">
+    <p style="color:#ffffff; font-size:1.05rem; line-height:1.7em; font-weight:normal; margin: 0;">
+      橋や道路の点検・補修は、地域に根ざした建設業者がいなければ成り立ちません。<br>
+      しかし彼らは、<b>高齢化と非効率な事務作業</b>で消滅の危機にあります。<br>
+      <span style="color:#fed7aa; font-size:1.15rem; font-weight:bold;">「山口建設DX」は、テクノロジーと異業種の力で彼らの誇りある仕事をサポートし、<br>
+      安全なインフラを次世代の山口県民へ引き継ぎます。</span>
+    </p>
+  </div>
+</section>
+
+<!-- Slide 11 -->
+<section>
+  <h2>[補足] 削減対象となる山口県・下関市の独自書類リスト</h2>
+  <p>現場監督を苦しめる「ローカル書式」をピンポイントで自動化する。</p>
+  <ul>
+    <li><b>山口県 土木建築部 指定様式</b>
+      <ul>
+        <li><code>施工計画書（様式第2号）</code>：現場ごとに会社名、技術者情報を手入力する苦痛を排除。</li>
+        <li><code>安全管理計画書・各種届出書</code>：重複する現場番号や住所の一括マッピング。</li>
+      </ul>
+    </li>
+    <li style="margin-top: 10px;"><b>下関市 独自様式</b>
+      <ul>
+        <li><code>地元企業活用実績報告書</code>：下関市発注工事特有の書類。プラットフォーム内の取引履歴から1クリックで出力可能に。</li>
+      </ul>
+    </li>
+    <li style="margin-top: 10px;"><b>効果：</b> 毎日18時〜21時まで行われていた<strong>「二重・三重の転記残業」をゼロへ。</strong></li>
+  </ul>
+</section>
+
+<!-- Slide 12 -->
+<section>
+  <h2>[補足] 異業種シェア（ドローン・造船・鉄工）の取引ルール</h2>
+  <p>トラブルを未然に防ぎ、銀行・行政が安心できる取引環境を定義。</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">① 「工種・タスク」としてのパッケージ化</div>
+      <p style="font-size:0.85rem;">人貸し（派遣）ではなく成果物責任の「一括請負」としてメニュー化。</p>
+      <p style="font-size:0.8rem; color:#64748b;">例：「ドローン外壁点検一式：〇万円」「鉄骨溶接加工（半日）一式：〇万円」</p>
+    </div>
+    <div class="card">
+      <div class="card-title">② 機材シェアにおけるリスクヘッジ</div>
+      <p style="font-size:0.85rem;">3Dレーザースキャナ等の高額機材シェア時、利用料を原資とする<b>「独自動産総合保険」</b>を自動付帯（想定）。悪質業者は相互レビューで自然淘汰。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 13 -->
+<section>
+  <h2>[補足] 明確な競合サービスとのポジショニング比較</h2>
+  <p>既存の巨大テック企業とは「戦わない」ニッチトップ戦略。</p>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">機能・特徴</th>
+        <th style="width: 25%;"><b>本事業 (山口建設DX)</b></th>
+        <th style="width: 25%;">全国版マッチング (ツクリンク等)</th>
+        <th>施工管理SaaS (ANDPAD等)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>ターゲット</b></td>
+        <td><strong style="color: #ea580c;">山口県内のBtoB企業</strong></td>
+        <td>全国の個人事業主中心</td>
+        <td>自社と下請けのクローズド</td>
+      </tr>
+      <tr>
+        <td><b>ローカル書類対応</b></td>
+        <td><strong style="color: #ea580c;">〇 (山口県・市町村様式)</strong></td>
+        <td>× (全国一律のみ)</td>
+        <td>× (自社内管理のみ)</td>
+      </tr>
+      <tr>
+        <td><b>稼働状況の可視化</b></td>
+        <td><strong style="color: #ea580c;">〇 (LINEで毎週更新)</strong></td>
+        <td>× (過去実績のみ)</td>
+        <td>× (自社案件のみ)</td>
+      </tr>
+      <tr>
+        <td><b>異業種・機材シェア</b></td>
+        <td><strong style="color: #ea580c;">〇 (ドローン・造船等)</strong></td>
+        <td>× (建設純色のみ)</td>
+        <td>× (機能なし)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Slide 14 -->
+<section>
+  <h2>[補足] 初期開発コストを抑える「MVP開発戦略」</h2>
+  <p>「本当に300万円以下で開発できるのか？」への回答。</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">ノーコード（Bubble / FlutterFlow）採用</div>
+      <p style="font-size:0.85rem;">最初に数千万円のフルスクラッチ開発は行わない。<b>「山口県書式の自動生成機能」</b>と<b>「リソース掲示板」</b>に機能を絞り、3ヶ月でスピード開発する。</p>
+    </div>
+    <div class="card">
+      <div class="card-title">「LINE公式アカウント」を全面採用</div>
+      <p style="font-size:0.85rem;">高額な独自アプリ開発を回避。職人の入り口をLINEに集約することで、コストを抑えつつ<b>「高齢の職人でも迷わず使えるUI」</b>と<b>「高いアクティブ率」</b>を両立。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 15 -->
+<section>
+  <h2>[補足] 国策「建設業の2024年問題」との連動</h2>
+  <p>時代がこのプラットフォームを求めている。</p>
+  <pre>
+【法改正の強制変化】 ➡ 時間外労働の罰則付き上限規制が完全適用。現場は増えるが労働時間は減る
+       ⬇
+【プラットフォームの大義】 ➡ ノンコア業務（事務作業）を極限まで削り、現場の時間を生み出す
+       ⬇
+【本事業の社会的結論】 ➡ 山口県の会社が罰則を回避し、地元のインフレを維持するための「社会的防衛策」</pre>
+</section>
+
+</body>
+</html>
